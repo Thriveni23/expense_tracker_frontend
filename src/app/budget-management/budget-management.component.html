@@ -1,0 +1,76 @@
+<div class="container mt-5">
+  <div class="card shadow-lg border-0">
+    <div class="card-body">
+      <h3 class="card-title text-center mb-4 text-primary">Set Your Budget</h3>
+
+      <form [formGroup]="budgetForm" (ngSubmit)="onSubmit()">
+        <div class="row g-3">
+
+          <div class="col-md-5">
+            <label for="category" class="form-label">Category</label>
+            <select id="category" class="form-select" formControlName="category" required>
+              <option value="" disabled selected>Select category</option>
+              <option *ngFor="let cat of categories" [value]="cat">{{ cat }}</option>
+            </select>
+           
+          </div>
+
+          <div class="col-md-3">
+            <label for="amount" class="form-label">Amount (₹)</label>
+            <input
+              type="number"
+              id="amount"
+              class="form-control"
+              formControlName="amount"
+              placeholder="Enter budget amount"
+              min="0"
+              required
+            />
+          
+          </div>
+
+          <div class="col-md-4">
+            <label for="month" class="form-label">Month & Year</label>
+            <input
+              type="month"
+              id="month"
+              class="form-control"
+              formControlName="monthyear"
+              required
+            /> 
+           
+          </div>
+          
+
+        </div>
+
+        <div class="mt-4 text-center">
+          <button type="submit" class="btn btn-success px-4" [disabled]="budgetForm.invalid">Save Budget</button>
+        </div>
+      </form>
+      <div class="mt-5">
+        <h4 class="text-primary">Current Month's Budget Summary</h4>
+        <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4 mt-3">
+          <div class="col" *ngFor="let item of budgetSummary">
+            <div class="card h-100 shadow-sm">
+              <div class="card-body">
+                <h5 class="card-title text-center text-success">{{ item.category }}</h5>
+                <p><strong>Budgeted:</strong> ₹{{ item.amount }}</p>
+                <p><strong>Spent:</strong> ₹{{ item.spent }}</p>
+                <p><strong>Remaining:</strong> ₹{{ item.remaining }}</p>
+                <div class="text-center" style="height: 120px;">
+                  <canvas baseChart
+                    [data]="getChartData(item.spent, item.remaining)"
+                    [type]="'pie'"
+                    [options]="chartOptions"
+                    style="height: 100px; width: 80px;">
+                  </canvas>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

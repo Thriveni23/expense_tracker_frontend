@@ -1,0 +1,94 @@
+<div class="container mt-5">
+  <div class="card shadow-lg border-0">
+    <div class="card-body">
+      <h3 class="card-title text-center mb-4 text-primary">Income Details</h3>
+
+      <form [formGroup]="incomeForm" (ngSubmit)="onSubmit()">
+        <div class="row g-3">
+          <div class="col-md-2">
+            <label class="form-label">Date</label>
+            <input type="date" class="form-control" formControlName="date" required />
+          </div>
+      
+          <div class="col-md-2">
+            <label class="form-label">Description</label>
+            <input type="text" class="form-control" formControlName="description" required />
+          </div>
+      
+          <div class="col-md-2">
+            <label class="form-label">Amount</label>
+            <input type="number" class="form-control" formControlName="amount" required />
+          </div>
+      
+          <div class="col-md-2">
+            <label class="form-label">Source</label>
+            <select class="form-select" formControlName="source" required>
+              <option *ngFor="let src of sources" [value]="src.sourceType">{{ src.sourceType }}</option>
+            </select>
+          </div>
+        </div> <!-- ✅ Correctly close the row -->
+      
+        <div class="mt-4 text-center">
+          <button class="btn btn-success px-4" type="submit" [disabled]="incomeForm.invalid">Insert</button>
+        </div>
+      </form>
+      
+   
+  </div>
+
+ 
+<div class="card mt-4 shadow-sm">
+  <div class="card-body">
+    <h5 class="mb-3 text-secondary">Income Records</h5>
+
+   
+    <div class="row g-3 mb-4">
+      <div class="col-md-6">
+        <label>Search Description</label>
+        <input
+          type="text"
+          class="form-control"
+          placeholder="Search..."
+          [(ngModel)]="searchTerm"
+          (ngModelChange)="onSearchChange()"
+          name="search"
+        />
+      </div>
+      <div class="col-md-3">
+        <label>Filter by Source</label>
+        <select class="form-select" [(ngModel)]="selectedSource" (change)="onSourceFilterChange()">
+          <option value="All">All Sources</option>
+          <option *ngFor="let src of sources" [value]="src.sourceType">{{ src.sourceType }}</option>
+        </select>
+      </div>
+    </div>
+
+   
+    <div class="row g-3">
+      <div class="col-md-4" *ngFor="let incom of incomeary">
+        <div class="card h-100 shadow-sm">
+          <div class="card-body">
+            <h6 class="text-muted">{{ incom.date | date: 'dd-MM-yyyy' }}</h6>
+            <h5 class="fw-semibold">{{ incom.description }}</h5>
+            <p class="card-text">
+              <strong>Amount: </strong
+              ><span class="text-success fw-bold">₹{{ incom.amount }}</span><br />
+              <strong>Source: </strong
+              ><span class="badge bg-info text-dark">{{ incom.source }}</span>
+            </p>
+          </div>
+          <div class="card-footer d-flex justify-content-between">
+            <button class="btn btn-sm btn-warning" (click)="onEdit(incom)">Edit</button>
+            <button class="btn btn-sm btn-danger" (click)="onDelete(incom)">Delete</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div *ngIf="incomeary.length === 0" class="text-center text-muted py-4">
+      No income records found.
+    </div>
+  </div>
+</div>
+
+</div>

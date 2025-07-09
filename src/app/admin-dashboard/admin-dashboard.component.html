@@ -1,0 +1,193 @@
+<div class="container mt-5">
+  <div class="card shadow-lg border-0">
+    <div class="card-body">
+      <h3 class="text-center text-primary fw-semibold mb-4">👑 Admin Dashboard</h3>
+
+      <ul class="nav nav-tabs mb-4" id="adminTabs">
+        <li class="nav-item">
+          <a class="nav-link active" data-bs-toggle="tab" href="#users">Users</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" data-bs-toggle="tab" href="#incomes">Incomes</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" data-bs-toggle="tab" href="#transactions">Transactions</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" data-bs-toggle="tab" href="#savings">Savings</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" data-bs-toggle="tab" href="#budgets">Budgets</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" data-bs-toggle="tab" href="#masterdata">Category & Source</a>
+        </li>
+      </ul>
+
+      <div class="tab-content">
+        <!-- USERS -->
+        <div class="tab-pane fade show active" id="users">
+          <h5 class="mb-3 text-primary">User Accounts</h5>
+          <div class="row g-3">
+            <div class="col-md-4" *ngFor="let user of users">
+              <div class="card h-100 border-info shadow-sm">
+                <div class="card-body">
+                  <h6 class="fw-bold text-primary">{{ user.fullName }}</h6>
+                  <p class="mb-1"><strong>Email:</strong> {{ user.email }}</p>
+                  <p class="mb-1"><strong>Phone:</strong> {{ user.phoneNumber }}</p>
+                  <p><strong>Role:</strong>
+                    <span class="badge bg-info text-dark">{{ user.role }}</span>
+                  </p>
+                </div>
+                <div class="card-footer d-flex justify-content-end">
+                  <button class="btn btn-sm btn-danger" (click)="deleteUser(user.id)">
+                    <i class="bi bi-trash"></i> Delete
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div *ngIf="users.length === 0" class="text-center text-muted py-4">
+            No user records found.
+          </div>
+        </div>
+
+        <!-- INCOMES -->
+        <div class="tab-pane fade" id="incomes">
+          <h5 class="mb-3 text-success">Income Records</h5>
+          <div class="row g-3">
+            <div class="col-md-4" *ngFor="let income of incomes">
+              <div class="card h-100 border-success shadow-sm">
+                <div class="card-body">
+                  <h6 class="text-muted">{{ income.date | date: 'dd-MM-yyyy' }}</h6>
+                  <h5 class="fw-semibold">{{ income.userFullName }}</h5>
+                  <p>
+                    <strong>Amount:</strong>
+                    <span class="text-success fw-bold">₹{{ income.amount }}</span><br />
+                    <strong>Source:</strong>
+                    <span class="badge bg-info text-dark">{{ income.source }}</span>
+                  
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div *ngIf="incomes.length === 0" class="text-center text-muted py-4">
+            No income records found.
+          </div>
+        </div>
+
+        <!-- TRANSACTIONS -->
+        <div class="tab-pane fade" id="transactions">
+          <h5 class="mb-3 text-warning">Transaction Records</h5>
+          <div class="row g-3">
+            <div class="col-md-4" *ngFor="let txn of transactions">
+              <div class="card h-100 border-warning shadow-sm">
+                <div class="card-body">
+                  <h6 class="text-muted">{{ txn.date | date: 'dd-MM-yyyy' }}</h6>
+                  <h5 class="fw-semibold">{{ txn.userFullName }}</h5>
+              
+                  <p class="mb-1"><strong>Category:</strong> {{ txn.category }}</p>
+             
+                  <p><strong>Amount:</strong> ₹{{ txn.amount }}</p>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div *ngIf="transactions.length === 0" class="text-center text-muted py-4">
+            No transaction records found.
+          </div>
+        </div>
+
+        <!-- SAVINGS -->
+        <div class="tab-pane fade" id="savings">
+          <h5 class="mb-3 text-info">Savings Goals</h5>
+          <div class="row g-3">
+            <div class="col-md-4" *ngFor="let goal of savings">
+              <div class="card h-100 border-info shadow-sm">
+                <div class="card-body">
+                  <h6 class="fw-semibold">{{ goal.userFullName }}</h6>
+                  <p><strong>Goal:</strong> {{ goal.goalName }}</p>
+                  <p><strong>Target:</strong> ₹{{ goal.targetAmount }}</p>
+                  <p><strong>Saved:</strong> ₹{{ goal.savedAmount }}</p>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div *ngIf="savings.length === 0" class="text-center text-muted py-4">
+            No savings records found.
+          </div>
+        </div>
+
+        <!-- BUDGETS -->
+        <div class="tab-pane fade" id="budgets">
+          <h5 class="mb-3 text-danger">Budget Records</h5>
+          <div class="row g-3">
+            <div class="col-md-4" *ngFor="let budget of budgets">
+              <div class="card h-100 border-danger shadow-sm">
+                <div class="card-body">
+                  <h6 class="fw-semibold">{{ budget.userFullName }}</h6>
+                  <p><strong>Category:</strong> {{ budget.category }}</p>
+                  <p><strong>Amount:</strong> ₹{{ budget.amount }}</p>
+                  <p><strong>MonthYear:</strong> {{ budget.monthYear | date: 'MMMM y' }}</p>
+
+                </div>
+              </div>
+            </div>
+          </div>
+          <div *ngIf="budgets.length === 0" class="text-center text-muted py-4">
+            No budget records found.
+          </div>
+        </div>
+
+
+        <div class="tab-pane fade" id="masterdata">
+          <h5 class="mb-3 text-dark">Manage Categories & Sources</h5>
+
+          <div class="row">
+            <!-- Category Section -->
+            <div class="col-md-6">
+              <div class="card border-primary mb-4 shadow-sm">
+                <div class="card-body">
+                  <h6 class="text-primary">💼 Categories</h6>
+                  <div class="input-group mb-3">
+                    <input [(ngModel)]="newCategory" type="text" class="form-control" placeholder="Add new category" />
+                    <button class="btn btn-primary" (click)="addCategory()">Add</button>
+                  </div>
+                  <ul class="list-group">
+                    <li class="list-group-item d-flex justify-content-between align-items-center"
+                        *ngFor="let cat of categoryTypes">
+                      {{ cat.categoryType }}
+                      <button class="btn btn-sm btn-outline-danger" (click)="deleteCategory(cat.id)">✕</button>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+
+            <!-- Source Section -->
+            <div class="col-md-6">
+              <div class="card border-success mb-4 shadow-sm">
+                <div class="card-body">
+                  <h6 class="text-success">📌 Sources</h6>
+                  <div class="input-group mb-3">
+                    <input [(ngModel)]="newSource" type="text" class="form-control" placeholder="Add new source" />
+                    <button class="btn btn-success" (click)="addSource()">Add</button>
+                  </div>
+                  <ul class="list-group">
+                    <li class="list-group-item d-flex justify-content-between align-items-center"
+                        *ngFor="let src of sourceTypes">
+                      {{ src.sourceType }}
+                      <button class="btn btn-sm btn-outline-danger" (click)="deleteSource(src.id)">✕</button>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+      </div>
+    </div>
+  </div>
+</div>

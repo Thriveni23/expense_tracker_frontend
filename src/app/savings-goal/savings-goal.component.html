@@ -1,0 +1,54 @@
+<div class="container mt-4">
+    <div class="card shadow-sm mb-4">
+      <div class="card-body">
+        <h4 class="card-title text-primary mb-3">Add New Saving Goal</h4>
+        <form [formGroup]="goalForm" (ngSubmit)="onSubmit()">
+          <div class="row g-3">
+            <div class="col-md-5">
+              <input type="text" class="form-control" placeholder="Goal Name" formControlName="goalName" />
+            </div>
+            <div class="col-md-5">
+              <input type="number" class="form-control" placeholder="Target Amount" formControlName="targetAmount" />
+            </div>
+            <div class="col-md-2 text-e  nd">
+              <button class="btn btn-success w-100" type="submit">Add Goal</button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+    <div class="container">
+      <div class="row">
+        <div *ngFor="let goal of goals" class="col-md-6 col-lg-4 mb-4">
+          <div class="card shadow-sm h-100">
+            <div class="card-body d-flex flex-column justify-content-between">
+              <div>
+                <h5>{{ goal.goalName }}</h5>
+                <p>Target: ₹{{ goal.targetAmount }}</p>
+                <p>Saved: ₹{{ goal.savedAmount }}</p>
+              </div>
+    
+          
+              <div class="input-group mb-2">
+                <input type="number" class="form-control" placeholder="Amount"
+                  [(ngModel)]="contributionAmount[goal.id]" name="amount{{goal.id}}" />
+                <button class="btn btn-primary" (click)="onAddToSavings(goal.id)">Add to Savings</button>
+              </div>
+    
+             
+              <div class="progress mb-2">
+                <div class="progress-bar bg-success" role="progressbar"
+                  [style.width.%]="getProgress(goal)">
+                  {{ getProgress(goal) | number:'1.0-0' }}%
+                </div>
+              </div>
+    
+              <button class="btn btn-sm btn-outline-danger mt-2" (click)="onDelete(goal.id)">Delete Goal</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+  </div>
+  

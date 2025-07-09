@@ -1,0 +1,8 @@
+<div class="overlay"></div>
+<div class="position-relative" style="z-index: 1;">
+  <router-outlet></router-outlet>
+
+  <ng-container *ngIf="!router.url.includes('login') && !router.url.includes('signup') && !router.url.includes('settings') && !router.url.includes('admin')">
+    <app-footer></app-footer>
+  </ng-container>
+</div>
