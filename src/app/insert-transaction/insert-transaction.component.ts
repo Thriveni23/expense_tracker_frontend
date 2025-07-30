@@ -63,6 +63,7 @@ export class InsertTransactionComponent {
       }
     });
   } 
+ 
   
   getCategories(): void {
     this.categoryService.getAllCategories().subscribe({

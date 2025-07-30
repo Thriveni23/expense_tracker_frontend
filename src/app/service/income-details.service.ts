@@ -2,6 +2,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/internal/Observable';
 import { Income } from '../models/income-details';
+import { map } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -12,26 +13,34 @@ export class IncomeDetailsService {
   baseurl = "http://localhost:5287/api/Incomes";
 
   private getAuthHeaders(): HttpHeaders {
-    const token = sessionStorage.getItem('token');
+    const token = localStorage.getItem('token');
     return new HttpHeaders().set('Authorization', `Bearer ${token}`);
   }
 
-  GetIncome(): Observable<Income[]> {
-    return this.httpclient.get<Income[]>(this.baseurl, {
+ GetIncome(): Observable<Income[]> {
+    return this.httpclient.get<any>(this.baseurl, {
       headers: this.getAuthHeaders()
-    });
+    }).pipe(
+      map(response => response.result) // ✅ extract actual array
+    );
   }
+
 
   insertIncome(income: Income): Observable<Income> {
-    return this.httpclient.post<Income>(this.baseurl, income, {
+    return this.httpclient.post<any>(this.baseurl, income, {
       headers: this.getAuthHeaders()
-    });
+    }).pipe(
+      map(response => response.result) // ✅ extract inserted income object
+    );
   }
 
+
   updateIncome(id: number, income: Income): Observable<Income> {
-    return this.httpclient.put<Income>(`${this.baseurl}/${id}`, income, {
+    return this.httpclient.put<any>(`${this.baseurl}/${id}`, income, {
       headers: this.getAuthHeaders()
-    });
+    }).pipe(
+      map(response => response.result) // ✅ extract updated income object
+    );
   }
 
   deleteIncome(id: number): Observable<any> {

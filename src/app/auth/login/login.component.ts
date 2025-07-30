@@ -38,9 +38,11 @@ export class LoginComponent {
     this.authService.login(this.loginForm.value).subscribe({
       next: (res) => {
         this.snackbarService.show('Login successful!');
-        localStorage.setItem('token', res.token);
-        localStorage.setItem('role', res.role); 
-        if (res.role === 'Admin') {
+        // localStorage.setItem('token', res.token);
+        // localStorage.setItem('role', res.role); 
+              localStorage.setItem('token', res.result.token);
+      localStorage.setItem('role', res.result.role);
+        if (res.result.role === 'Admin') {
           this.router.navigate(['/admin-dashboard']);
         } else {
           this.router.navigate(['/dashboard']);

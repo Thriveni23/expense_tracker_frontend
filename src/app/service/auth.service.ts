@@ -8,31 +8,32 @@ export class AuthService {
 
   constructor(private http: HttpClient) {}
 
-  login(data: any): Observable<any> {
-    return this.http.post(`${this.apiUrl}/login`, data).pipe(
-      tap((res: any) => {
-        sessionStorage.setItem('token', res.token);
-        sessionStorage.setItem('role', res.role);
-      })
-    );
-  }
+ login(data: any): Observable<any> {
+  return this.http.post(`${this.apiUrl}/login`, data).pipe(
+    tap((res: any) => {
+      localStorage.setItem('token', res.result.token);
+      localStorage.setItem('role', res.result.role);
+    })
+  );
+}
+
 
   register(data: any): Observable<any> {
     return this.http.post(`${this.apiUrl}/register`, data);
   }
 
   logout() {
-    sessionStorage.removeItem('token');
-    sessionStorage.removeItem('role');
-  }
+  localStorage.removeItem('token');
+  localStorage.removeItem('role');
+}
 
-  isLoggedIn(): boolean {
-    return !!sessionStorage.getItem('token');
-  }
+isLoggedIn(): boolean {
+  return !!localStorage.getItem('token');
+}
 
-  getRole(): string | null {
-    return sessionStorage.getItem('role');
-  }
+getRole(): string | null {
+  return localStorage.getItem('role');
+}
 
   changePassword(currentPassword: string, newPassword: string): Observable<any> {
     const payload = { currentPassword, newPassword };
@@ -59,9 +60,9 @@ export class AuthService {
   }
 
   private getAuthHeaders(): HttpHeaders {
-    const token = sessionStorage.getItem('token');
-    return new HttpHeaders({
-      Authorization: `Bearer ${token}`
-    });
-  }
+  const token = localStorage.getItem('token');
+  return new HttpHeaders({
+    Authorization: `Bearer ${token}`
+  });
+}
 }
